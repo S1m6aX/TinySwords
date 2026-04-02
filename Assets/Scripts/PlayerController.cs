@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveDirection;
     private int attackCombo = 1;
     private bool isAttacking = false;
+    private bool isGuarding = false;
 
     void Start()
     {
@@ -40,7 +41,8 @@ public class PlayerController : MonoBehaviour
         // Attack input
         if (Input.GetKeyDown(KeyCode.J))
         {   
-            if (!isAttacking){
+            if (!isAttacking && !isGuarding)
+            {
                 isAttacking = true;
 
                 if (attackCombo == 1) 
@@ -55,7 +57,18 @@ public class PlayerController : MonoBehaviour
                 }
                 Invoke("OnAttackEnd", 0.35f);
             }
+        }
 
+        // Defence input
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerGuard(true);
+            isGuarding = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.K))
+        {
+            PlayerGuard(false);
+            isGuarding = false;
         }
     }
 
@@ -69,7 +82,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void PlayerMove()
     {   
-        if (!isAttacking)
+        if (!isAttacking && !isGuarding)
         {
             rb.velocity = moveDirection * moveSpeed;
             am.SetBool("IsRunning", moveDirection.magnitude > 0.1f);
@@ -88,8 +101,17 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Trigger the attack animation
     /// </summary>
-    public void PlayerAttack(string attackType)
+    private void PlayerAttack(string attackType)
     {
         am.SetTrigger(attackType);
+    }
+
+    /// <summary>
+    /// Handles the guard state of the player. 
+    /// </summary>
+    /// <param name="enterGuard">Exit gaurd or enter guard status</param>
+    private void PlayerGuard(bool enterGuard)
+    {
+        am.SetBool("IsGuarding", enterGuard);
     }
 }
