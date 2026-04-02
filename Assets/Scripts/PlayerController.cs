@@ -63,12 +63,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             PlayerGuard(true);
-            isGuarding = true;
         }
         else if (Input.GetKeyUp(KeyCode.K))
         {
             PlayerGuard(false);
-            isGuarding = false;
         }
     }
 
@@ -113,5 +111,6 @@ public class PlayerController : MonoBehaviour
     private void PlayerGuard(bool enterGuard)
     {
         am.SetBool("IsGuarding", enterGuard);
+        isGuarding = enterGuard;
     }
 }
