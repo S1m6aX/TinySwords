@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 2268525967673715490}
+  am: {fileID: 1552038412089501427}
   moveSpeed: 3
 --- !u!50 &2268525967673715490
 Rigidbody2D:
